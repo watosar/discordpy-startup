@@ -7,6 +7,18 @@ import sys
 from contextlib import redirect_stdout
 import textwrap
 
+from discord import opus
+import subprocess
+
+def find_library(name):
+    proc = subprocess.run(["find","/usr/lib", "-type", "f", "-name", f"*lib{name}.so*"], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+    return proc.stdout.decode("utf8")
+
+try:
+    opus._lib = opus.libopus_loader((find_library("opus").split("/")[3][:-1]))
+except Exception:
+    pass
+del opus
 
 logging.basicConfig(level=logging.INFO)
 bot = commands.Bot(command_prefix='/')
