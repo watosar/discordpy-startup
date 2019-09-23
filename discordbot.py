@@ -23,7 +23,7 @@ async def ping(ctx):
 async def join(ctx):
     voice_state = ctx.author.voice
     if not voice_state: return
-    await voice_state.connect()
+    await voice_state.channel.connect()
 
 
 @bot.command()
